@@ -1,0 +1,41 @@
+leaflet-providorで、地図のスタイル変更
+[https://leaflet-extras.github.io/leaflet-providers/preview/](https://leaflet-extras.github.io/leaflet-providers/preview/)
+
+マーカーの基本コード
+[http://www.slideshare.net/takahi/leafletjs-44404366](http://www.slideshare.net/takahi/leafletjs-44404366)
+
+API例
+http://nominatim.openstreetmap.org/search?country=japan&format=json&viewbox=139.5744323730469,35.74846274418971,139.9040222167969,35.60902228231369
+
+R,N,Wについて
+http://www.openstreetmap.org/relation/3599783
+
+Overpass APIについて
+http://qiita.com/taku/items/f3c6ed375a2461551d7c
+
+Overpass API例
+http://wiki.openstreetmap.org/wiki/JA:Overpass_API/%E8%A8%80%E8%AA%9E%E3%82%AC%E3%82%A4%E3%83%89
+
+「都市」のnodeのタグ
+http://wiki.openstreetmap.org/wiki/Tag:place%3Dcity
+
+主要都市と座標データ
+http://simplemaps.com/resources/world-cities-data
+
+その他公開データ
+http://standardization.at.webry.info/201101/article_6.html
+
+overpass api練習サイト
+http://overpass-turbo.eu/
+
+上田周辺の町を問い合わせる例
+URL: www.overpass-api.de/api/interpreter
+
+POSTデータ：
+
+    [out:json];
+    node
+       [place=town]
+       (36.3073788467898,137.97454833984378,36.58355488335725,138.63372802734378);
+    out;
+
