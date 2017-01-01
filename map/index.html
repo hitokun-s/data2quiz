@@ -190,10 +190,10 @@
                                 tmp.push(target);
                                 self.selection = _.shuffle(tmp);
                             }
-                            $.post( "https://www.overpass-api.de/api/interpreter", data2, sh2);
+                            $.post( "http://www.overpass-api.de/api/interpreter", data2, sh2);
                         }
                     }
-                    $.post( "https://www.overpass-api.de/api/interpreter", data, successHandler).fail(function(res) {
+                    $.post( "http://www.overpass-api.de/api/interpreter", data, successHandler).fail(function(res) {
                         console.log(res);
                     });
                 });
