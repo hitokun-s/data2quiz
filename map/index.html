@@ -158,7 +158,7 @@
                     // 呼び方が悪いのか、レスポンスが返らないため、$httpは使用中止。
 //                this.$http.post("http://www.overpass-api.de/api/interpreter", data, function(data, status, request){});
 
-                    $.post( "//www.overpass-api.de/api/interpreter", data, function( res) {
+                    $.post( "https://www.overpass-api.de/api/interpreter", data, function( res) {
                         // クエリパラメータで経緯度で範囲を指定しているが、おそらく細かい小数部分が考慮されないため、
                         // 微妙に域外の地点も含んだレスポンスが返ってくる。よって手動での絞り込みが必要。
                         self.cities = res.elements.filter(function(d){
@@ -179,7 +179,7 @@
 //                        });
 //                        m.addTo(map);
                             var data2 = self.$el.querySelector(".overpass-query2").textContent.replace(/\s+/g, '');
-                            $.post( "//www.overpass-api.de/api/interpreter", data2, function( res) {
+                            $.post( "https://www.overpass-api.de/api/interpreter", data2, function( res) {
                                 var tmp = res.elements.filter(function(d){
                                     return ids.indexOf(d.id) < 0
                                 });
