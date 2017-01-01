@@ -190,7 +190,9 @@
                             $.post( "http://www.overpass-api.de/api/interpreter", data2, sh2);
                         }
                     }
-                    $.post( "http://www.overpass-api.de/api/interpreter", data, successHandler);
+                    $.post( "http://www.overpass-api.de/api/interpreter", data, successHandler).fail(function(res) {
+                        console.log(res);
+                    });
                 });
             }
         }
