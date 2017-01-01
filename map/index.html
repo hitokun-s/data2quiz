@@ -194,7 +194,7 @@
         }
     });
     var map = new L.Map("stage").setView([35.678707, 139.739143], 12);
-    var tileLayer = L.tileLayer('//{s}.tile.osm.org/{z}/{x}/{y}.png', {
+    var tileLayer = L.tileLayer('http//{s}.tile.osm.org/{z}/{x}/{y}.png', {
         attribution : '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
     //    L.tileLayer.provider('OpenStreetMap.BlackAndWhite').addTo(map);
