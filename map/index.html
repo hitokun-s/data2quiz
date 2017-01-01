@@ -159,6 +159,9 @@
 //                this.$http.post("http://www.overpass-api.de/api/interpreter", data, function(data, status, request){});
 
                     var successHandler = function( res) {
+                        
+                        console.log("success!");
+                        
                         // クエリパラメータで経緯度で範囲を指定しているが、おそらく細かい小数部分が考慮されないため、
                         // 微妙に域外の地点も含んだレスポンスが返ってくる。よって手動での絞り込みが必要。
                         self.cities = res.elements.filter(function(d){
@@ -187,10 +190,10 @@
                                 tmp.push(target);
                                 self.selection = _.shuffle(tmp);
                             }
-                            $.post( "http://www.overpass-api.de/api/interpreter", data2, sh2);
+                            $.post( "https://www.overpass-api.de/api/interpreter", data2, sh2);
                         }
                     }
-                    $.post( "http://www.overpass-api.de/api/interpreter", data, successHandler).fail(function(res) {
+                    $.post( "https://www.overpass-api.de/api/interpreter", data, successHandler).fail(function(res) {
                         console.log(res);
                     });
                 });
