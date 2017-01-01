@@ -192,12 +192,15 @@
                             }
 //                            $.post( "https://www.overpass-api.de/api/interpreter", data2, sh2);
                             $.ajax({
-                                url: "http://www.overpass-api.de/api/interpreter",
+                                url: "https://www.overpass-api.de/api/interpreter",
                                 type:"POST",
                                 data: data2,
                                 contentType:"application/json; charset=utf-8",
                                 dataType:"json",
-                                success: sh2
+                                success: sh2,
+                                error: function(res){
+                                    console.log(res);
+                                }
                             });
                         }
                     }
@@ -205,12 +208,15 @@
 //                        console.log(res);
 //                    });
                     $.ajax({
-                        url: "http://www.overpass-api.de/api/interpreter",
+                        url: "https://www.overpass-api.de/api/interpreter",
                         type:"POST",
                         data: data,
                         contentType:"application/json; charset=utf-8",
                         dataType:"json",
                         success: successHandler,
+                        error: function(res){
+                            console.log(res);
+                        }
                     });
                 });
             }
