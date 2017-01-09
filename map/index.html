@@ -5,104 +5,80 @@
     <title>Map - data2quiz</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.2/leaflet.css" rel="stylesheet">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.2/leaflet.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-providers/1.1.15/leaflet-providers.min.js"></script>
+    <!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-providers/1.1.15/leaflet-providers.min.js"></script>-->
     <script src="https://unpkg.com/vue/dist/vue.js"></script>
-    <!--<script src="https://cdn.jsdelivr.net/vue.resource/1.0.3/vue-resource.min.js"></script>-->
+    <script src="https://cdn.jsdelivr.net/vue.resource/1.0.3/vue-resource.min.js"></script>
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/0.7.23/HTMLImports.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
-    <link rel="import" href="header.html">
-    <style>
-        body{
-            padding-top: 51px;
-        }
-        html,body,#app,.container,.row,.col-md-10{
-            height: 100%;
-        }
-        #stage{
-            width:100%;
-            height:100%;
-        }
-        .container-full {
-            margin: 0 auto;
-            width: 100%;
-            height: 100%;
-        }
-        .select-answer{
-            position: absolute;
-            z-index: 500;
-            width: 115px !important;
-            margin-top: -5px !important;
-            margin-left: -47px !important;
-        }
-        .voice{
-            position: absolute;
-            top: -40px;
-            width: 100px;
-            height: 30px;
-            padding-top: 5px;
-            background: lightyellow;
-            border-radius: 5px;
-        }
-        .voice:after {
-            content: '';
-            position: absolute;
-            border-top: 10px solid lightyellow;
-            border-right: 10px solid transparent;
-            border-left: 10px solid transparent;
-            bottom: -10px;
-            left: 50%;
-        }
-    </style>
+    <link href="map.css" rel="stylesheet">
+    <script type="text/javascript" src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js"></script>
 </head>
 <body>
-<div id="header"></div>
-<div id="app" class="container container-full">
-    <div class="row">
-        <div class="col-md-2">
-            <button class="btn btn-primary" v-on:click="tryQuiz()">Try Quiz!</button>
-            <button class="btn btn-danger" v-on:click="giveUp()">Give up</button>
-            <ul>
-                <li v-for="city in cities">{{ city.tags.name }}</li>
-            </ul>
-        </div>
-        <div class="col-md-10">
-            <div class='select-answer' v-bind:style="{top:targetPoint.y + 'px', left:targetPoint.x + 'px'}" v-show="selectVisible">
-                <div class="voice text-center">{{ isThinking ? '選んで！': (isCorrect ? '正解！' : '不正解！')}}</div>
-                <select v-model="answer" class='form-control' v-on:change="onAnswer">
-                    <option value=''>select!</option>
-                    <option v-bind:value="s" v-for="s in selection">{{ s.tags.name }}</option>
-                </select>
+<div id="app">
+    <my-header></my-header>
+    <div class="container container-full">
+        <div class="row">
+            <div class="col-md-2 side-bar">
+                <button class="btn btn-primary" v-on:click="tryQuiz()">Try Quiz!</button>
+                <button class="btn btn-danger" v-on:click="giveUp()">Give up</button>
+                <!--<ul>-->
+                    <!--<li v-for="city in cities">{{ city.tags.name }}</li>-->
+                <!--</ul>-->
+                <div class="score"><h1>{{ correctCount }}/{{ totalCount }}</h1></div>
             </div>
-            <div id="stage"></div>
+            <div class="col-md-10">
+                <div class='select-answer' v-bind:style="{top:targetPoint.y + 'px', left:targetPoint.x + 'px'}" v-show="selectVisible">
+                    <div class="voice text-center">{{ isThinking ? '選んで！': (isCorrect ? '正解！' : '不正解！')}}</div>
+                    <select v-model="answer" class='form-control' v-on:change="onAnswer">
+                        <option value=''>select!</option>
+                        <option v-bind:value="s" v-for="s in selection">{{ s.tags.name }}</option>
+                    </select>
+                </div>
+                <div id="stage"></div>
+            </div>
         </div>
+        <text class="overpass-query" style="visible:hidden;">
+            [out:json];
+            node
+            [place=city]
+            ({{s}},{{w}},{{n}},{{e}});
+            out;
+        </text>
+        <text class="overpass-query2" style="visible:hidden;">
+            [out:json];
+            node
+            [place=city]
+            ({{s - (n-s)/2}},{{w - (e-w)/2}},{{n + (n-s)/2}},{{e + (e-w)/2}});
+            out;
+        </text>
     </div>
-    <text class="overpass-query" style="visible:hidden;">
-        [out:json];
-        node
-        [place=city]
-        ({{s}},{{w}},{{n}},{{e}});
-        out;
-    </text>
-    <text class="overpass-query2" style="visible:hidden;">
-        [out:json];
-        node
-        [place=city]
-        ({{s - (n-s)/2}},{{w - (e-w)/2}},{{n + (n-s)/2}},{{e + (e-w)/2}});
-        out;
-    </text>
 </div>
 
 <script>
 
-//    var _header = document.querySelector('link[rel="import"]').import.querySelector("#_header");
-//    document.getElementsByTagName("body")[0].appendChild(_header);
-//
-//    var header = new Vue({
-//        el: "#header",
-//        template: "#_header"
-//    });
+    ["my-header"].forEach(function(tmpl){
+        Vue.component(tmpl, function (resolve, reject) {
+            $.get(tmpl + '.html', function(data, status, request){
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(data, "text/html");
+                resolve({
+                    template: doc.querySelector("template"),
+                    ready: function() {
+                        console.log('I am ready!');
+                    }
+                });
+            });
+        });
+    });
+
+
+    var getOsmData = function(data, handler){
+        $.post( "https://overpass-api.de/api/interpreter", data, handler).fail(function(res){
+            console.log(res);
+        });
+    }
 
     var app = new Vue({
         el: '#app',
@@ -116,15 +92,18 @@
             answer : null,
             selection: [],
             target: null,
-            selectVisible: true,
+            selectVisible: false,
             isCorrect: false,
-            isThinking: true
+            isThinking: true,
+            totalCount: 0,
+            correctCount: 0
         },
         methods:{
             onAnswer: function(){
                 this.isCorrect = this.target == this.answer;
                 this.isThinking = false;
                 if(this.isCorrect){
+                    this.correctCount++;
                     var self = this;
                     setTimeout(function(){
                         self.selectVisible = false;
@@ -136,8 +115,10 @@
             },
             tryQuiz: function(){
 
-                this.isThinking = true;
-                this.selectVisible = true;
+                $.blockUI({
+                    message: "<h2>クイズ作成中・・・</h2>",
+                    css: {"border-radius": "5px"}
+                });
 
                 var bounds = map.getBounds();
                 var nw = bounds.getNorthWest();
@@ -158,9 +139,7 @@
                     // 呼び方が悪いのか、レスポンスが返らないため、$httpは使用中止。
 //                this.$http.post("http://www.overpass-api.de/api/interpreter", data, function(data, status, request){});
 
-                    var successHandler = function( res) {
-                        
-                        console.log("success!");
+                    getOsmData(data, function(res) {
                         
                         // クエリパラメータで経緯度で範囲を指定しているが、おそらく細かい小数部分が考慮されないため、
                         // 微妙に域外の地点も含んだレスポンスが返ってくる。よって手動での絞り込みが必要。
@@ -182,42 +161,22 @@
 //                        });
 //                        m.addTo(map);
                             var data2 = self.$el.querySelector(".overpass-query2").textContent.replace(/\s+/g, '');
-                            var sh2 = function( res) {
+                            getOsmData(data2, function( res) {
                                 var tmp = res.elements.filter(function(d){
                                     return ids.indexOf(d.id) < 0
                                 });
                                 tmp = _.sample(tmp, 5);
                                 tmp.push(target);
                                 self.selection = _.shuffle(tmp);
-                            }
-//                            $.post( "https://www.overpass-api.de/api/interpreter", data2, sh2);
-                            $.ajax({
-                                url: "https://overpass-api.de/api/interpreter",
-                                type:"POST",
-                                data: data2,
-                                contentType:"application/json; charset=utf-8",
-                                dataType:"json",
-                                success: sh2,
-                                error: function(res){
-                                    console.log(res);
-                                }
                             });
+
+                            self.totalCount++;
+
+                            self.isThinking = true;
+                            self.selectVisible = true;
                         }
-                    }
-                    $.post("https://overpass-api.de/api/interpreter", data, successHandler).fail(function(res) {
-                        console.log(res);
+                        $.unblockUI();
                     });
-//                    $.ajax({
-//                        url: "https://overpass-api.de/api/interpreter",
-//                        type:"POST",
-//                        data: data,
-//                        contentType:"application/json; charset=utf-8",
-//                        dataType:"json",
-//                        success: successHandler,
-//                        error: function(res){
-//                            console.log(res);
-//                        }
-//                    });
                 });
             }
         }
@@ -227,8 +186,8 @@
     var tileLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution : '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
-    //    L.tileLayer.provider('OpenStreetMap.BlackAndWhite').addTo(map);
-    //    var tileLayer = L.tileLayer.provider('Stamen.TonerLite');
+
+
     tileLayer.addTo(map);
 
     // add layers

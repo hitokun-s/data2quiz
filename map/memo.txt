@@ -39,3 +39,56 @@ POSTデータ：
        (36.3073788467898,137.97454833984378,36.58355488335725,138.63372802734378);
     out;
 
+#trouble shooting
+
+```$.post( "https://overpass-api```を```$.post( "https://www.overpass-api```にした途端、CORS問題？でエラーや警告になる。
+
+- chrome => securityタブにエラーが出て、アドレスバーのhttpsが×印になる
+- IE11 => access deniedになる
+
+#leafletのURLでhttpsのものにするには？
+https://github.com/Leaflet/Leaflet/issues/3186
+
+#行政区界を取得する
+http://wiki.openstreetmap.org/wiki/JA:%E5%A2%83%E7%95%8C%E7%B7%9A
+
+githubのマップはmapbox×osmを使っている
+
+よくみる、mapboxのlight/darkスタイルはこれ。
+https://www.mapbox.com/maps/light-dark/
+これは「ベースマップ」の一種らしい。
+http://dev.classmethod.jp/etc/getting-started-mapbox/
+
+#ランダムに地点を選ぶ方法案
+1. 国か何かを絞ったうえで、osmのIDを使えばいいのでは？海の上にはたぶんobjectはないはず・・・
+でもidが連続している保証はないので、この作戦は無理。
+2. 国を指定した上で、「国」に次ぐ行政レベル（state?）を指定して一覧をとればよいのでは？そこからランダムに選ぶ。
+
+#overpass-APIで境界を取得する例
+
+data=[out:json];rel[boundary=administrative][admin_level=6](35.48695192624445,139.09515380859378,35.62660519422425,139.42474365234378);out;
+
+肝心なのは、クイズ対象都市の境界だけ表示すること！
+
+これも参考：
+http://gis.stackexchange.com/questions/76869/how-to-get-wkt-or-geojson-by-country-or-city-name-with-overpass-api
+「area」で直接問い合わせているのか？？？
+
+日本の全都市を取得する。
+
+data=[out:json];(node[place=city]["is_in:country_code"="JP"];);out;
+
+お、人口もクエリにできるっぽい。
+http://wiki.openstreetmap.org/wiki/Tag:place%3Dcity
+これは、クイズのヒントにできるな。。。
+
+placeに設定されるコード一覧
+http://wiki.openstreetmap.org/wiki/Map_Features
+
+各国のjsonデータ
+https://mledoze.github.io/countries/
+
+
+
+
+
