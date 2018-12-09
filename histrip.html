@@ -18,6 +18,7 @@
   <link rel="stylesheet" href="./css/histrip.css">
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
+
 </head>
 <body>
 <div id="app">
@@ -105,9 +106,7 @@
       },
       data: [],
       map: null,
-      video: {
-        url: "https://www.youtube.com/embed/FuFAJ4FDp5k"
-      }
+      video: null
     },
     created: function(){
       var self = this;
@@ -280,6 +279,30 @@
     $( "#amount" ).val("1200年 ～ 1950年");
     $(".range-time").hide();
   });
+
+  // video icon test
+  // var videoMarker = L.AwesomeMarkers.icon({
+  //   icon: 'coffee',
+  //   markerColor: 'red'
+  // });
+  // L.marker([21.021380187691722, 106.61081314086914], {icon: videoMarker}).addTo(map);
+
+  var LeafIcon = L.Icon.extend({
+    options: {
+      // shadowUrl: 'leaf-shadow.png',
+      iconSize:     [38, 38],
+      // shadowSize:   [50, 50],
+      // iconAnchor:   [22, 94],
+      // shadowAnchor: [4, 62],
+      // popupAnchor:  [-3, -76]
+    }
+  });
+  var videoIcon = new LeafIcon({iconUrl: './img/video.png'});
+  L.marker([21.021380187691722, 106.61081314086914], {icon: videoIcon}).addTo(map).on('click', function(){
+    app.video = {
+      url: "https://www.youtube.com/embed/FuFAJ4FDp5k"
+    };
+  })
 
 </script>
 </body>
