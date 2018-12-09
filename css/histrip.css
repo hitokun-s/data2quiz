@@ -54,3 +54,20 @@ body {
 .navbar{
   background-color: #f4f4f4 !important;
 }
+
+.range-time{
+  position: absolute;
+  text-align: center;
+  width: 100%;
+  z-index: 500;
+  /*width: 90% !important;*/
+  top: 30% !important;
+}
+
+.range-time-inner{
+  width: 80%;
+  margin-left: 10%;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+}
