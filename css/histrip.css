@@ -72,7 +72,8 @@ body {
   margin-left: 5%;
   background: #fff;
   border-radius: 10px;
-  overflow-y: auto;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
 }
 
 .person ui{
