@@ -176,14 +176,21 @@
 
   tileLayer.addTo(map);
 
+  var streetColors = [
+      "#194f90",
+      "#00919c",
+      "#8b0000",
+      "#de4307"
+  ];
+
   // street
   d3.json("./data/street.json", function(data){
     console.log(data);
-    data.forEach(function(d){
+    data.forEach(function(d, i){
       var Line = L.polyline(d.coordinates.map(function(v){
         return v.reverse();
       }),{
-        "color": "#FF0000",
+        "color": streetColors[i],
         "weight": 5,
         "opacity": 0.6
       }).addTo(map);
