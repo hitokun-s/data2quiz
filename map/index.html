@@ -10,6 +10,7 @@
     <script src="https://cdn.jsdelivr.net/vue.resource/1.0.3/vue-resource.min.js"></script>
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
     <link href="map.css" rel="stylesheet">
     <script type="text/javascript" src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
@@ -100,15 +101,15 @@
         },
         methods:{
             onAnswer: function(){
-                this.isCorrect = this.target == this.answer;
+                this.isCorrect = (this.target == this.answer);
                 this.isThinking = false;
                 if(this.isCorrect){
                     this.correctCount++;
-                    var self = this;
-                    setTimeout(function(){
-                        self.selectVisible = false;
-                    }, 1000);
                 }
+                var self = this;
+                setTimeout(function(){
+                    self.selectVisible = false;
+                }, 2000);
             },
             giveUp: function(){
                 this.selectVisible = false;

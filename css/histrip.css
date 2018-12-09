@@ -1,0 +1,56 @@
+body{
+  padding-top: 51px;
+  padding-bottom: 65px;
+}
+html,body{
+  height: 100%;
+}
+#app, #stage{
+  width:100%;
+  height:100%;
+}
+
+#genre{
+  position: absolute;
+  z-index: 500;
+  width: 115px !important;
+  top: 10px !important;
+  right: 10px !important;
+  /*background-color: #fff;*/
+  border-radius: 5px;
+}
+
+#genre ui{
+  background-color: transparent !important;
+}
+
+
+html,
+body {
+  height: 100%;
+}
+
+#footer{
+  height: 65px !important;
+}
+
+#bottomNav {
+  padding:10px;
+}
+#bottomNav a {
+  font-size:24pt;
+  color:#ddd;
+  text-decoration:none;
+}
+#bottomNav a:hover {
+  color:#fff;
+}
+
+#logo{
+  margin-top: -15px !important;
+  height: 50px !important;
+}
+
+.navbar{
+  background-color: #f4f4f4 !important;
+}

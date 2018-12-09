@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Histrip</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.2/leaflet.css" rel="stylesheet">
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+  <script type="text/javascript"
+          src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.2/leaflet.js"></script>
+  <!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-providers/1.1.15/leaflet-providers.min.js"></script>-->
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+        rel="stylesheet">
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.3.9/d3.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+  <link rel="stylesheet" href="./css/histrip.css">
+</head>
+<body>
+<div id="app">
+  <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#"><img src="./img/logo.png" id="logo"></a>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="#">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+               aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="#">Menu1</a></li>
+              <li><a href="#">Menu2</a></li>
+              <li><a href="#">Menu3</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div><!--/.nav-collapse -->
+    </div>
+  </nav>
+
+  <div id="stage">
+    <div id="genre" v-show="show.genre">
+      <ul class="list-group">
+        <li class="list-group-item" v-bind:class="{active: genres[0]}" @click="hoge(0)">genre1</li>
+        <li class="list-group-item" v-bind:class="{active: genres[1]}" @click="hoge(1)">genre2</li>
+        <li class="list-group-item" v-bind:class="{active: genres[2]}" @click="hoge(2)">genre3</li>
+      </ul>
+    </div>
+  </div>
+
+  <div id="footer" class="col-xs-12 navbar-inverse navbar-fixed-bottom">
+    <div class="row" id="bottomNav">
+      <div class="col-xs-4 text-center"><a href="#">year</a></div>
+      <div class="col-xs-4 text-center"><a href="#" @click="show.genre = true">genre</a></div>
+      <div class="col-xs-4 text-center"><a href="#">Link3</a></div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+  var app = new Vue({
+    el: '#app',
+    mounted: function(){
+      console.log("hello");
+    },
+    data: {
+      genres: [true, false, false],
+      show: {
+        genre: false
+      }
+    },
+    methods:{
+      hoge: function(genreIdx){
+        this.genres[genreIdx] = !this.genres[genreIdx];
+        this.$forceUpdate();
+      }
+    }
+  });
+
+  // Hanoi 21 01'42″N 105°51'15″E == 21.0283330793027, 105.854165140889
+  var map = new L.Map("stage").setView([21.0283330793027, 105.854165140889], 5);
+
+  //    var tileLayer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+  var tileLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+  }).addTo(map);
+
+  tileLayer.addTo(map);
+
+  // street
+  d3.json("./data/street.json", function(data){
+    console.log(data);
+    data.forEach(function(d){
+      var Line = L.polyline(d.coordinates.map(function(v){
+        return v.reverse();
+      }),{
+        "color": "#FF0000",
+        "weight": 5,
+        "opacity": 0.6
+      }).addTo(map);
+    })
+  });
+
+  // river
+  d3.json("./data/river.json", function(data){
+    console.log(data);
+    data.forEach(function(d){
+      var baseCoordinates = d.coordinates.map(function(v){
+        return v.reverse();
+      });
+      var Line = L.polyline(baseCoordinates, {
+        "color": "#FF0000",
+        "weight": 5,
+        "opacity": 0.6
+      }).addTo(map);
+
+      var river2 = L.polyline(baseCoordinates.map(function(v){
+        //106.75887107849121
+        //  0.00000000000010
+        return [v[0] + 0.002, v[1] + 0.005];
+      }), {
+        "color": "blue",
+        "weight": 5,
+        "opacity": 0.6
+      }).addTo(map);
+
+      var river3 = L.polyline(baseCoordinates.map(function(v){
+        //106.75887107849121
+        //  0.00000000000010
+        return [v[0] - 0.002, v[1] - 0.005];
+      }), {
+        "color": "green",
+        "weight": 5,
+        "opacity": 0.6
+      }).addTo(map);
+    })
+  });
+
+  function format(dateTimeStr){
+    var splitted = dateTimeStr.split("/");
+    console.log("splitted", splitted);
+    console.log("splitted.length", splitted.length);
+    switch(splitted.length){
+      case 1 : return splitted[0] + "年";
+      case 2 : return splitted[0] + "年" + splitted[1] + "月";
+      case 3 : return splitted[0] + "年" + splitted[1] + "月" + splitted[2] + "日";
+      default: return "hoge"
+    }
+    return null;
+  }
+
+  //event
+  d3.csv("./data/event.csv", function(data){
+    console.log(data); // id, datetime, name, coordinate(緯度、経度)
+    data.forEach(function(d){
+      if(d.coordinate){
+        var mapMarker = L.marker(d.coordinate.split(",").map(function(c){return parseFloat(c);})).addTo(map);
+        var datetimeStr;
+        if(d.datetime.indexOf(",") > -1 ){
+          datetimeStr = d.datetime.split(",").map(function(d){return format(d)}).join("～");
+        }else{
+          datetimeStr = format(d.datetime);
+        }
+        var comment = d.name + '<br>' + datetimeStr;
+        mapMarker.bindPopup(comment).openPopup();
+        d.marker = mapMarker;
+      }
+      if(d.datetime.indexOf(",")){
+        // console.log(moment.utc(d.datetime.split(",")[0]));
+        d.syear = moment.utc(d.datetime.split(",")[0]).year();
+        d.eyear = moment.utc(d.datetime.split(",")[1]).year();
+      }else{
+        // console.log(moment.utc(d.datetime));
+        d.syear = d.eyear = moment.utc(d.datetime).year();
+      }
+    });
+
+    setTimeout(function(){
+      data.filter(function(d){
+        return d.syear > 1970
+      }).forEach(function(d){
+        d.marker.setOpacity(0);
+      });
+    }, 3000);
+  })
+
+</script>
+</body>
+</html>
