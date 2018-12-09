@@ -17,6 +17,7 @@ body {
 
 #footer{
   height: 65px !important;
+  background-color: #f4f4f4 !important;
 }
 
 #bottomNav {
@@ -24,7 +25,7 @@ body {
 }
 #bottomNav a {
   font-size:24pt;
-  color:#ddd;
+  color: #F4AC8D;
   text-decoration:none;
 }
 #bottomNav a:hover {
@@ -88,4 +89,7 @@ body {
 
 .person img{
   height: 100%;
+}
+.menu{
+  color: #F4AC8D;
 }
