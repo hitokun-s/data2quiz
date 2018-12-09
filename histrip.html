@@ -57,8 +57,12 @@
       <div class="person-inner">
         <ul class="list-group">
           <li v-for="p in persons" class="list-group-item" @click="selectPerson(p.id)">
-            <img :src="'./img/person'+ p.id + '.jpg'" class="pull-left">
-            <p class="pull-right" style="font-size: 1.3em">{{p.name}}</p>
+            <div class="col-xs-4">
+              <img :src="'./img/person'+ p.id + '.jpg'">
+            </div>
+            <div class="col-xs-8">
+              <p style="font-size: 1.3em">{{p.name}}</p>
+            </div>
           </li>
         </ul>
       </div>
