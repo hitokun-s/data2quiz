@@ -2,6 +2,37 @@
   {
     "type":"person",
     "id":0,
-    "name":""
+    "syear": 974,
+    "eyear":1028,
+    "name":"ディン・ティエン・ホアン"
+  },
+  {
+    "type":"person",
+    "id":1,
+    "syear":1228,
+    "eyear":1300,
+    "name":"チャン・フン・ダオ"
+  },
+  {
+    "type":"person",
+    "id":2,
+    "syear":898,
+    "eyear":944,
+    "name":"ゴー・クエン"
+  },
+  {
+    "type":"person",
+    "id":3,
+    "syear":974,
+    "eyear":1028,
+    "name":"リー・タイ・トー"
+  },
+  {
+    "type":"person",
+    "id":4,
+    "syear":1753,
+    "eyear":1792,
+    "name":"クアンチュン"
   }
+
 ]

@@ -10,21 +10,6 @@ html,body{
   height:100%;
 }
 
-#genre{
-  position: absolute;
-  z-index: 500;
-  width: 115px !important;
-  top: 10px !important;
-  right: 10px !important;
-  /*background-color: #fff;*/
-  border-radius: 5px;
-}
-
-#genre ui{
-  background-color: transparent !important;
-}
-
-
 html,
 body {
   height: 100%;
@@ -70,4 +55,34 @@ body {
   background: #fff;
   padding: 20px;
   border-radius: 10px;
+}
+
+.person{
+  position: absolute;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  z-index: 500;
+  top: 10%;
+}
+
+.person-inner{
+  width: 90%;
+  height: 100%;
+  margin-left: 5%;
+  background: #fff;
+  border-radius: 10px;
+  overflow-y: auto;
+}
+
+.person ui{
+  background-color: transparent !important;
+}
+
+.person li{
+  height: 150px;
+}
+
+.person img{
+  height: 100%;
 }

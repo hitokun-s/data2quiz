@@ -52,12 +52,15 @@
   </nav>
 
   <div id="stage">
-    <div id="genre" v-show="show.genre">
-      <ul class="list-group">
-        <li class="list-group-item" v-bind:class="{active: genres[0]}" @click="hoge(0)">genre1</li>
-        <li class="list-group-item" v-bind:class="{active: genres[1]}" @click="hoge(1)">genre2</li>
-        <li class="list-group-item" v-bind:class="{active: genres[2]}" @click="hoge(2)">genre3</li>
-      </ul>
+    <div class="person" v-show="show.person">
+      <div class="person-inner">
+        <ul class="list-group">
+          <li v-for="p in persons" class="list-group-item" @click="selectPerson(p.id)">
+            <img :src="'./img/person'+ p.id + '.jpg'" class="pull-left">
+            <p class="pull-right" style="font-size: 3em">{{p.name}}</p>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 
@@ -76,7 +79,7 @@
   <div id="footer" class="col-xs-12 navbar-inverse navbar-fixed-bottom">
     <div class="row" id="bottomNav">
       <div class="col-xs-4 text-center"><a href="#" @click="selectYear">year</a></div>
-      <div class="col-xs-4 text-center"><a href="#" @click="show.genre = true">genre</a></div>
+      <div class="col-xs-4 text-center"><a href="#" @click="showPerson()">Person</a></div>
       <div class="col-xs-4 text-center"><a href="#">Link3</a></div>
     </div>
   </div>
@@ -90,16 +93,42 @@
       console.log("hello");
     },
     data: {
-      genres: [true, false, false],
+      persons: [],
       show: {
-        genre: false
+        person: false
       },
-      data: []
+      data: [],
+      map: null
+    },
+    created: function(){
+      var self = this;
+      d3.json("./data/person.json", function(data){
+        self.persons = data;
+      });
     },
     methods:{
-      hoge: function(genreIdx){
-        this.genres[genreIdx] = !this.genres[genreIdx];
-        this.$forceUpdate();
+      showPerson: function(){
+        this.show.person = true;
+        this.map.dragging.disable();
+        this.map.touchZoom.disable();
+        this.map.doubleClickZoom.disable();
+        this.map.scrollWheelZoom.disable();
+        this.map.boxZoom.disable();
+        this.map.keyboard.disable();
+        // if (map.tap) map.tap.disable();
+        // document.getElementById('map').style.cursor='default';
+      },
+      selectPerson: function(personIdx){
+        console.log(personIdx);
+        // this.genres[genreIdx] = !this.genres[genreIdx];
+        // this.$forceUpdate();
+        this.show.person = false;
+        this.map.dragging.enable();
+        this.map.touchZoom.enable();
+        this.map.doubleClickZoom.enable();
+        this.map.scrollWheelZoom.enable();
+        this.map.boxZoom.enable();
+        this.map.keyboard.enable();
       },
       selectYear: function(){
         $(".range-time").show();
@@ -128,6 +157,7 @@
 
   // Hanoi 21 01'42″N 105°51'15″E == 21.0283330793027, 105.854165140889
   var map = new L.Map("stage").setView([21.0283330793027, 105.854165140889], 5);
+  app.map = map;
 
   //    var tileLayer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
   var tileLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
